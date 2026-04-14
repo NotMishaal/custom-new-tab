@@ -156,6 +156,8 @@
   .task-star { font-size:11px; opacity:.22; cursor:pointer; transition:opacity .2s; flex-shrink:0; background:none; border:none; color:inherit; padding:2px; }
   .task-star:hover,.task-star.on { opacity:.9; }
   .task-star.on { color:#f5c36a; }
+  .task-delete { font-size:11px; opacity:.22; cursor:pointer; transition:opacity .2s; flex-shrink:0; background:none; border:none; color:#f5a5a5; padding:2px; }
+  .task-delete:hover { opacity:.9; }
   .task-add { display:flex; align-items:center; justify-content:space-between; margin-top:8px; padding-top:8px; border-top:1px solid rgba(255,255,255,.06); }
   .task-add-btn { display:flex; align-items:center; gap:5px; font-size:10px; color:var(--text-muted); cursor:pointer; background:none; border:none; font-family:inherit; transition:color .2s; padding:0; }
   .task-add-btn:hover { color:var(--text-secondary); }
@@ -530,11 +532,13 @@ function renderTasks(){
       <div class="task-check${t.done?' done':''}" onclick="toggleTask(${t.id})"></div>
       <div class="task-info"><div class="task-name">${t.name}</div><div class="task-tag">${t.tag}</div></div>
       <button class="task-star${t.starred?' on':''}" onclick="toggleStar(${t.id})">★</button>
+      <button class="task-delete" onclick="deleteTask(${t.id})">✕</button>
     </li>`).join('');
 }
 renderTasks();
 function toggleTask(id){tasks=tasks.map(t=>t.id===id?{...t,done:!t.done}:t);save('nt_tasks',tasks);renderTasks();}
 function toggleStar(id){tasks=tasks.map(t=>t.id===id?{...t,starred:!t.starred}:t);save('nt_tasks',tasks);renderTasks();}
+function deleteTask(id){tasks=tasks.filter(t=>t.id!==id);save('nt_tasks',tasks);renderTasks();}
 function showTaskInput(){
   const list=document.getElementById('taskList');
   const li=document.createElement('li'); li.className='task-input-row';
